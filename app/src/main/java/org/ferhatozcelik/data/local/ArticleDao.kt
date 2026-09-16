@@ -26,10 +26,10 @@ interface ArticleDao {
     suspend fun update(article: Article)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(article: List<Article?>?)
+    suspend fun insertAll(article: List<Article>)
 
     @Transaction
-    suspend  fun flushInsert(article: List<Article?>?) {
+    suspend fun flushInsert(article: List<Article>) {
         deleteAll()
         insertAll(article)
     }

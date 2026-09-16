@@ -1,99 +1,105 @@
-# Wordpress Mobile App
+# WordPress Android App
 
-WordPress for Android is a mobile app developed by the WordPress community that allows users to manage and publish content on their WordPress websites from their Android devices. It provides a convenient way for bloggers, website administrators, and content creators to stay connected with their WordPress sites while on the go. Here are some key features and functions of the WordPress for Android app
+A WordPress reader client for Android. The app pulls posts, categories and YouTube
+videos from a WordPress REST API and a YouTube channel, then lets you browse, read and
+bookmark them offline. Everything is stored locally with Room and synced with Retrofit.
 
-### Build With 🏗️
-- [Kotlin] - Programming language for Android
-- [Hilt-Dagger] - Standard library to incorporate Dagger dependency injection into an Android application.
-- [Retrofit] -  A type-safe HTTP client for Android and Java.
-- [Room] - SQLite object mapping library.
-- [Coroutines] - For asynchronous
-- [LiveData] - Data objects that notify views when the underlying database changes.
-- [ViewModel] - Stores UI-related data that isn't destroyed on UI changes.
-- [ViewBinding] - Generates a binding class for each XML layout file present in that module and allows you to more easily write code that interacts with views.
-- [Jetpack Navigation] - Navigation refers to the interactions that allow users to navigate across, into, and back out from the different pieces of content within your app
-   
-   [ViewModel]: <https://developer.android.com/topic/libraries/architecture/viewmodel>  
-   [Jetpack Navigation]: <https://developer.android.com/guide/navigation/>  
-   [Hilt-Dagger]: <https://dagger.dev/hilt/>  
-   [DataStore]: <https://developer.android.com/topic/libraries/architecture/datastore>
-   [ViewBinding]: <https://developer.android.com/topic/libraries/view-binding>
-   [LiveData]: <https://developer.android.com/topic/libraries/architecture/livedata/>
-   [Retrofit]: <https://square.github.io/retrofit/>
-   [ViewModel]: <https://developer.android.com/topic/libraries/architecture/viewmodel>
-   [Kotlin]: <https://kotlinlang.org>
-   [Coroutines]: <https://kotlinlang.org/docs/coroutines-overview.html>
-   [MVVM (Model View View-Model)]: <https://developer.android.com/jetpack/guide#recommended-app-arch>
-   [Dictionary Api]: <https://api.dictionaryapi.dev/>
-   [Room]: <https://developer.android.com/training/data-storage/room/>
-   
-### Project Architecture 🗼
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-This app uses [MVVM (Model View View-Model)] architecture.
+## Features
 
+- Article feed with categories, search and infinite scrolling.
+- Article detail with rendered HTML and images (Glide).
+- YouTube videos feed and an embedded player, plus a live section.
+- Bookmark (mark) articles and videos for offline access.
+- Contact / social links screen driven by remote configuration.
+- Light/dark theme, English and Turkish translations.
+- Optional Firebase Analytics, Crashlytics and Performance.
 
-### Project Run
-- You need these files to run the project or you can create it yourself for testing
+## Screenshots
 
-- gelecekbilimde-config.properties
-- BASE_URL="https://ferhatozcelik.com/";
-- YOUTUBE_API="https://www.googleapis.com/youtube";
-- YOUTUBE_API_KEY="";
-- CHANNEL_ID="UC03cpKIZShIWoSBhfVE5bog";
-- PLAYLIST_ID="UU03cpKIZShIWoSBhfVE5bog";
+|<img src="screenshot/screenshot_1.jpg" width="200">|<img src="screenshot/screenshot_2.jpg" width="200">|<img src="screenshot/screenshot_3.jpg" width="200">|<img src="screenshot/screenshot_5.jpg" width="200">|
+|:---:|:---:|:---:|:---:|
 
-- google-services.json
-- Firebase>Application Setting > google-services.json File Download
+## Architecture
 
+```
+app/
+└── src/main/java/org/ferhatozcelik/
+    ├── data/
+    │   ├── entity/    # Room entities (Article, Video, Categories, Marked*)
+    │   ├── local/     # Room database + DAOs + type converters
+    │   ├── model/     # API response models
+    │   └── remote/    # Retrofit AppApi
+    ├── di/            # Hilt modules (ApiModule, AppModule, DatabaseModule)
+    ├── repository/    # ArticleRepository, VideoRepository
+    ├── ui/
+    │   ├── activitys/ # MainActivity + video player
+    │   ├── adapters/  # RecyclerView adapters
+    │   ├── dialogs/   # app info dialog
+    │   └── fragments/ # article, videos, marked, contact + view models
+    └── util/          # date/network/html helpers
+```
 
-###--> START - GENERAL CONFIG
+The project follows **MVVM**: fragments observe `LiveData` from `@HiltViewModel`
+view models, which call repositories backed by Room and Retrofit.
 
-APPLICATION_ID=com.ferhatozcelik.wordpress
-APPLICATION_NAME=Ferhat OZCELIK
-APPLICATION_DESCRIPTION=Android Developer and Physicist
-BASE_URL=https://ferhatozcelik.com/
+`smoothbottombar` is a local library module that provides the animated bottom
+navigation bar used by the main screen.
 
-### --> END - GENERAL CONFIG
+## Configuration
 
-### --> START - YOUTUBE VIDEOS CONFIG
-IS_YOUTUBE=false
-YOUTUBE_API=https://www.googleapis.com/youtube
-YOUTUBE_API_KEY=
-CHANNEL_ID=UC...
-PLAYLIST_ID=UU...
-### --> END - YOUTUBE VIDEOS CONFIG
+The app reads its configuration from `config/config.properties`. This file is **not**
+committed (it may contain private keys); a ready-to-use template lives in
+`config-example/config.properties`.
 
+```bash
+mkdir -p config
+cp config-example/config.properties config/config.properties
+```
 
-### --> START - YOUTUBE VIDEOS CONFIG visible 0 , invisible 1, gone 2
+When `config/config.properties` is missing the build automatically falls back to
+`config-example/config.properties`, so a clean clone builds out of the box.
 
-BLOG_INFO_STATUS=true
-BLOG_INFO_TITLE=null
-BLOG_INFO=null
+| Setting | Purpose |
+| --- | --- |
+| `APPLICATION_ID` | Application id (`com.ferhatozcelik.wordpress`). |
+| `APPLICATION_NAME` / `APPLICATION_DESCRIPTION` | Shown on the contact screen. |
+| `BASE_URL` | WordPress REST API base url (must end with `/`). |
+| `YOUTUBE_API` / `YOUTUBE_API_KEY` / `CHANNEL_ID` / `PLAYLIST_ID` | YouTube feed configuration. |
+| `*_STATUS` | Visibility of each social link (`0` visible, `1` invisible, `2` gone). |
+| `storePassword` / `keyAlias` / `keyPassword` | Optional release signing. |
 
-DONATION_STATUS=2
-DONATION_URL=null
+### Optional integrations
 
-TWITCH_STATUS=2
-TWITCH_URL=null
+- **Firebase** — drop your `app/google-services.json` in place to enable Analytics,
+  Crashlytics and Performance. The corresponding Gradle plugins are only applied when
+  that file exists, so builds without it succeed.
+- **Release signing** — place `config/keystore.jks` and set the `storePassword`,
+  `keyAlias` and `keyPassword` properties. Without them the release build is produced
+  unsigned instead of failing.
 
-YOUTUBE_STATUS=0
-YOUTUBE_URL=https://youtube.com/ferhatozcelik
+## Requirements
 
-TWITTER_STATUS=0
-TWITTER_URL=https://www.twitter.com/ferhatozcelik
+| Tool | Version |
+| --- | --- |
+| minSdk | 24 |
+| compileSdk / targetSdk | 36 |
+| Gradle | 8.14.5 |
+| Android Gradle Plugin | 8.13.2 |
+| Kotlin | 2.2.21 |
+| Hilt | 2.57.2 |
+| Room | 2.8.5 |
+| JDK | 17 |
 
-INSTAGRAM_STATUS=0
-INSTAGRAM_URL=https://www.instagram.com/ferhatozcelik0
+## Building
 
-SPOTIFY_STATUS=2
-SPOTIFY_URL=null
+```bash
+./gradlew :app:assembleDebug     # debug APK
+./gradlew :app:assembleRelease   # release APK (signed only if configured)
+./gradlew test                   # unit tests
+```
 
-### --> END - YOUTUBE VIDEOS CONFIG
+## License
 
-### --> START - BUILD CONFIG
-storePassword=
-keyAlias=
-keyPassword=
-### --> END - BUILD CONFIG
-
-
+Apache License 2.0 — see [LICENSE](LICENSE). If this project helped you, give it a ⭐️.

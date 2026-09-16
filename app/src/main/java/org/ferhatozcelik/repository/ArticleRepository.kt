@@ -69,10 +69,10 @@ class ArticleRepository @Inject constructor(private val appApi: AppApi, private 
     suspend fun getCategoryActive(categoryId: Int?): List<Categories> {
         if (categoryId == 0) {
             categoryDao.updateResetActive(false)
-            categoryDao.update(getCategory(categoryId)?.copy(isActive = true))
+            getCategory(categoryId)?.let { categoryDao.update(it.copy(isActive = true)) }
         } else {
-            categoryDao.update(getCategory(0)?.copy(isActive = false))
-            categoryDao.update(getCategory(categoryId!!)?.copy(isActive = !getCategory(categoryId)?.isActive!!))
+            getCategory(0)?.let { categoryDao.update(it.copy(isActive = false)) }
+            getCategory(categoryId!!)?.let { categoryDao.update(it.copy(isActive = !it.isActive)) }
         }
         return setCategoriesActive(true)
     }

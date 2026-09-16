@@ -1,0 +1,299 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "1adb9e7d72ae6bf2c2546eada3692c74",
+    "entities": [
+      {
+        "tableName": "article_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`articleId` INTEGER PRIMARY KEY AUTOINCREMENT, `articleTitle` TEXT, `articleContent` TEXT, `articleCategory` TEXT, `articleImageUrl` TEXT NOT NULL, `authorId` INTEGER, `authorName` TEXT, `authorUrl` TEXT, `isBookmark` INTEGER, `articleCreateAtDate` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "articleId",
+            "columnName": "articleId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "articleTitle",
+            "columnName": "articleTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "articleContent",
+            "columnName": "articleContent",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "articleCategory",
+            "columnName": "articleCategory",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "articleImageUrl",
+            "columnName": "articleImageUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorId",
+            "columnName": "authorId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "authorName",
+            "columnName": "authorName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "authorUrl",
+            "columnName": "authorUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isBookmark",
+            "columnName": "isBookmark",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "articleCreateAtDate",
+            "columnName": "articleCreateAtDate",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "articleId"
+          ]
+        }
+      },
+      {
+        "tableName": "marked_article_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`articleId` INTEGER PRIMARY KEY AUTOINCREMENT, `articleTitle` TEXT, `articleContent` TEXT, `articleCategory` TEXT, `articleImageUrl` TEXT NOT NULL, `authorId` INTEGER, `authorName` TEXT, `authorUrl` TEXT, `isBookmark` INTEGER, `articleCreateAtDate` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "articleId",
+            "columnName": "articleId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "articleTitle",
+            "columnName": "articleTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "articleContent",
+            "columnName": "articleContent",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "articleCategory",
+            "columnName": "articleCategory",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "articleImageUrl",
+            "columnName": "articleImageUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorId",
+            "columnName": "authorId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "authorName",
+            "columnName": "authorName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "authorUrl",
+            "columnName": "authorUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isBookmark",
+            "columnName": "isBookmark",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "articleCreateAtDate",
+            "columnName": "articleCreateAtDate",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "articleId"
+          ]
+        }
+      },
+      {
+        "tableName": "marked_video_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `videoId` TEXT, `videoTitle` TEXT, `videoDescription` TEXT, `videoUrl` TEXT, `channelTitle` TEXT, `videoThumbnailUrl` TEXT NOT NULL, `isBookmark` INTEGER, `videoCreateAtDate` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "videoId",
+            "columnName": "videoId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "videoTitle",
+            "columnName": "videoTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "videoDescription",
+            "columnName": "videoDescription",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "videoUrl",
+            "columnName": "videoUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "channelTitle",
+            "columnName": "channelTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "videoThumbnailUrl",
+            "columnName": "videoThumbnailUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isBookmark",
+            "columnName": "isBookmark",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "videoCreateAtDate",
+            "columnName": "videoCreateAtDate",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "category_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryId` INTEGER PRIMARY KEY AUTOINCREMENT, `categoryCount` INTEGER, `categoryName` TEXT, `categoryDescription` TEXT, `isActive` INTEGER NOT NULL, `createAt` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "categoryCount",
+            "columnName": "categoryCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "categoryName",
+            "columnName": "categoryName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "categoryDescription",
+            "columnName": "categoryDescription",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isActive",
+            "columnName": "isActive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createAt",
+            "columnName": "createAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "categoryId"
+          ]
+        }
+      },
+      {
+        "tableName": "video_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `videoId` TEXT, `videoTitle` TEXT, `videoDescription` TEXT, `videoUrl` TEXT, `channelTitle` TEXT, `videoThumbnailUrl` TEXT NOT NULL, `isBookmark` INTEGER, `videoCreateAtDate` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "videoId",
+            "columnName": "videoId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "videoTitle",
+            "columnName": "videoTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "videoDescription",
+            "columnName": "videoDescription",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "videoUrl",
+            "columnName": "videoUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "channelTitle",
+            "columnName": "channelTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "videoThumbnailUrl",
+            "columnName": "videoThumbnailUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isBookmark",
+            "columnName": "isBookmark",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "videoCreateAtDate",
+            "columnName": "videoCreateAtDate",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1adb9e7d72ae6bf2c2546eada3692c74')"
+    ]
+  }
+}

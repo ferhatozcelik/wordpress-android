@@ -26,10 +26,10 @@ interface VideoDao {
     suspend fun update(video: Video)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(video: List<Video?>?)
+    suspend fun insertAll(video: List<Video>)
 
     @Transaction
-    suspend  fun flushInsert(video: List<Video?>?) {
+    suspend fun flushInsert(video: List<Video>) {
         deleteAll()
         insertAll(video)
     }

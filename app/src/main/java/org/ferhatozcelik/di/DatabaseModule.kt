@@ -23,7 +23,9 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(application: Application, callback: AppDatabase.Callback): AppDatabase {
         return Room.databaseBuilder(application, AppDatabase::class.java, "local_database")
-            .fallbackToDestructiveMigration().addCallback(callback).build()
+            .fallbackToDestructiveMigration(dropAllTables = true)
+            .addCallback(callback)
+            .build()
     }
 
     @Provides
