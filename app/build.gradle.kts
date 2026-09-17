@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.navigationSafeArgs)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.room)
 }
 
 /**
@@ -47,10 +46,6 @@ if (firebaseConfigured) {
 
 kapt {
     correctErrorTypes = true
-}
-
-room {
-    schemaDirectory("$projectDir/schemas")
 }
 
 tasks.withType<JavaCompile>().configureEach {
@@ -147,8 +142,9 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
 
-    // Local library
+    // Local libraries
     implementation(project(":smoothbottombar"))
+    implementation(project(":wordpress-core"))
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -165,11 +161,6 @@ dependencies {
     // Dagger Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-
-    // Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)

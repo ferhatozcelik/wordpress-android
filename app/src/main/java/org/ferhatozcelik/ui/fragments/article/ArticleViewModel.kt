@@ -163,11 +163,12 @@ class ArticleViewModel @Inject constructor(private val articleRepository: Articl
                             )
                         )
                         for (item in resultResponse) {
-                            if (item.count != null && item.count > 0) {
+                            val count = item.count
+                            if (count != null && count > 0) {
                                 tempList.add(
                                     Categories(
                                         categoryId = item.id,
-                                        categoryCount = item.count,
+                                        categoryCount = count,
                                         categoryName = item.name,
                                         categoryDescription = item.description,
                                         isActive = false,

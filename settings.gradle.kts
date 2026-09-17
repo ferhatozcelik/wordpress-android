@@ -25,3 +25,4 @@ dependencyResolutionManagement {
 rootProject.name = "Wordpress-Android"
 include(":app")
 include(":smoothbottombar")
+include(":wordpress-core")

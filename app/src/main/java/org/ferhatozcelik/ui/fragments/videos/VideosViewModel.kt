@@ -57,22 +57,22 @@ class VideosViewModel @Inject constructor(private val videoRepository: VideoRepo
 
 
                         for (item in resultResponse.items!!) {
-                            if (item.snippet?.resourceId?.videoId != null) {
-                                val isBookmarks = item.snippet.resourceId.videoId in videoRepository.getBookmarkArticle()
-                                tempList.add(
-                                    Video(
-                                        videoId = item.snippet.resourceId.videoId,
-                                        videoTitle = item.snippet.title?.htmlToString(),
-                                        videoDescription = item.snippet.description?.htmlToString(),
-                                        videoUrl = "https://www.youtube.com/watch?v=" + (item.snippet.resourceId.videoId),
-                                        videoThumbnailUrl = item.snippet.thumbnails?.high?.url!!,
-                                        channelTitle = item.snippet.channelTitle,
-                                        isBookmark = isBookmarks,
-                                        videoCreateAtDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(item.snippet.publishedAt.toString()
-                                        )
+                            val snippet = item.snippet ?: continue
+                            val videoId = snippet.resourceId?.videoId ?: continue
+                            val isBookmarks = videoId in videoRepository.getBookmarkArticle()
+                            tempList.add(
+                                Video(
+                                    videoId = videoId,
+                                    videoTitle = snippet.title?.htmlToString(),
+                                    videoDescription = snippet.description?.htmlToString(),
+                                    videoUrl = "https://www.youtube.com/watch?v=" + videoId,
+                                    videoThumbnailUrl = snippet.thumbnails?.high?.url!!,
+                                    channelTitle = snippet.channelTitle,
+                                    isBookmark = isBookmarks,
+                                    videoCreateAtDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(snippet.publishedAt.toString()
                                     )
                                 )
-                            }
+                            )
                         }
 
                         videoRepository.flushArticleInsert(tempList.toList(), flush)

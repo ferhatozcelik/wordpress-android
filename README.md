@@ -23,8 +23,11 @@ bookmark them offline. Everything is stored locally with Room and synced with Re
 
 ## Architecture
 
+The data, Hilt and repository layers live in the `:wordpress-core` library module, while
+`:app` contains the UI on top of it:
+
 ```
-app/
+wordpress-core/                       # reusable library (:wordpress-core)
 └── src/main/java/org/ferhatozcelik/
     ├── data/
     │   ├── entity/    # Room entities (Article, Video, Categories, Marked*)
@@ -32,13 +35,18 @@ app/
     │   ├── model/     # API response models
     │   └── remote/    # Retrofit AppApi
     ├── di/            # Hilt modules (ApiModule, AppModule, DatabaseModule)
-    ├── repository/    # ArticleRepository, VideoRepository
-    ├── ui/
-    │   ├── activitys/ # MainActivity + video player
-    │   ├── adapters/  # RecyclerView adapters
-    │   ├── dialogs/   # app info dialog
-    │   └── fragments/ # article, videos, marked, contact + view models
-    └── util/          # date/network/html helpers
+    └── repository/    # ArticleRepository, VideoRepository
+
+app/                                  # demo application (:app)
+└── src/main/java/org/ferhatozcelik/
+    ├── App.kt
+    ├── interfaces/    # UI item click listener
+    └── ui/
+        ├── activitys/ # MainActivity + video player
+        ├── adapters/  # RecyclerView adapters
+        ├── dialogs/   # app info dialog
+        ├── fragments/ # article, videos, marked, contact + view models
+        └── util/      # date/network/html helpers
 ```
 
 The project follows **MVVM**: fragments observe `LiveData` from `@HiltViewModel`
@@ -98,6 +106,27 @@ When `config/config.properties` is missing the build automatically falls back to
 ./gradlew :app:assembleDebug     # debug APK
 ./gradlew :app:assembleRelease   # release APK (signed only if configured)
 ./gradlew test                   # unit tests
+```
+
+## Library module
+
+The data, networking and repository layers are packaged as the `:wordpress-core` Android
+library (`com.ferhatozcelik:wordpress-core`). It reads the same `config/config.properties`
+for its `BASE_URL` and `YOUTUBE_API` values. Publish it to your local Maven repository and
+consume it from another project:
+
+```bash
+./gradlew :wordpress-core:publishToMavenLocal -PVERSION_NAME=1.0.0
+```
+
+```kotlin
+repositories {
+    mavenLocal()
+}
+
+dependencies {
+    implementation("com.ferhatozcelik:wordpress-core:1.0.0")
+}
 ```
 
 ## License

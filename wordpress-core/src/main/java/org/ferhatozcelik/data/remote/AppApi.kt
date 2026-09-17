@@ -1,10 +1,9 @@
 package org.ferhatozcelik.data.remote
 
-import org.ferhatozcelik.BuildConfig
+import org.ferhatozcelik.core.BuildConfig
 import org.ferhatozcelik.data.model.ArticleResult
 import org.ferhatozcelik.data.model.CategoryResult
 import org.ferhatozcelik.data.model.VideoResult
-import org.ferhatozcelik.util.*
 import retrofit2.Response
 import retrofit2.http.*
 
